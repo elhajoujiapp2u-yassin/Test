@@ -1,0 +1,17 @@
+# This is a basic workflow to help you get started with Actions
+
+name: commit-msg
+on: push
+jobs:
+  check-commit-message:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check commit message
+      run: |
+        git log -n 1 --pretty=%B > msg.txt
+        if grep -q "^[A-Z]{3}-[0-9]{4}: " msg.txt; then
+          echo "Commit message matches expected format"
+        else
+          echo "Commit message does not match expected format"
+          exit 1
+        fi
